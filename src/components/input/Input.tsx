@@ -5,7 +5,7 @@ import { RegisterOptions, useFormContext } from 'react-hook-form'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
-  label: string
+  label?: string
   registerOptions?: RegisterOptions
 }
 export const Input: FC<Props> = (props) => {
@@ -17,9 +17,11 @@ export const Input: FC<Props> = (props) => {
   return (
     <>
       <Stack gap={'--xxs'}>
-        <Box color={'black'} as={'p'}>
-          {props.label}
-        </Box>
+        {props.label && (
+          <Box color={'black'} as={'p'}>
+            {props.label}
+          </Box>
+        )}
         <Box {...form.register(props.name, props.registerOptions)} {...props} as={'input'} />
       </Stack>
       <ErrorMessage

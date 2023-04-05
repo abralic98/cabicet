@@ -30,37 +30,21 @@ export type Account = {
   password: Scalars['String'];
 };
 
-export type Company = {
-  __typename?: 'Company';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-};
-
-export type Link = {
-  __typename?: 'Link';
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  url?: Maybe<Scalars['String']>;
-};
-
 export type Message = {
   __typename?: 'Message';
   id: Scalars['ID'];
   message: Scalars['String'];
+  user?: Maybe<User>;
 };
 
 export type RootMutationType = {
   __typename?: 'RootMutationType';
   /** Create new Account */
   createAccount?: Maybe<Account>;
-  /** Create a new link */
-  createLink?: Maybe<Link>;
   /** Create new Message */
   createMessage?: Maybe<Message>;
   /** Create new User */
   createUser?: Maybe<User>;
-  /** Delete link */
-  deleteLink?: Maybe<Scalars['ID']>;
   /** Login */
   loginUser?: Maybe<User>;
 };
@@ -70,12 +54,6 @@ export type RootMutationTypeCreateAccountArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
-};
-
-
-export type RootMutationTypeCreateLinkArgs = {
-  description: Scalars['String'];
-  url: Scalars['String'];
 };
 
 
@@ -90,11 +68,6 @@ export type RootMutationTypeCreateUserArgs = {
 };
 
 
-export type RootMutationTypeDeleteLinkArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type RootMutationTypeLoginUserArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -102,14 +75,10 @@ export type RootMutationTypeLoginUserArgs = {
 
 export type RootQueryType = {
   __typename?: 'RootQueryType';
-  /** Get all links */
-  allLinks: Array<Link>;
   /** Get all users */
   allUsers?: Maybe<Array<Maybe<User>>>;
-  /** Get all companies */
-  getCompanies: Array<Company>;
   /** Get all messages */
-  getMessages: Array<Company>;
+  getMessages?: Maybe<Array<Maybe<Message>>>;
 };
 
 export type User = {
@@ -139,6 +108,19 @@ export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllUsersQuery = { __typename?: 'RootQueryType', allUsers?: Array<{ __typename?: 'User', username: string, id: string } | null> | null };
+
+export type CreateMessageMutationVariables = Exact<{
+  message: Scalars['String'];
+  userId: Scalars['ID'];
+}>;
+
+
+export type CreateMessageMutation = { __typename?: 'RootMutationType', createMessage?: { __typename?: 'Message', message: string } | null };
+
+export type GetMessagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMessagesQuery = { __typename?: 'RootQueryType', getMessages?: Array<{ __typename?: 'Message', id: string, message: string, user?: { __typename?: 'User', username: string } | null } | null> | null };
 
 
 export const CreateAccountDocument = `
@@ -202,5 +184,50 @@ export const useAllUsersQuery = <
     useQuery<AllUsersQuery, TError, TData>(
       variables === undefined ? ['allUsers'] : ['allUsers', variables],
       fetcher<AllUsersQuery, AllUsersQueryVariables>(client, AllUsersDocument, variables, headers),
+      options
+    );
+export const CreateMessageDocument = `
+    mutation createMessage($message: String!, $userId: ID!) {
+  createMessage(message: $message, userId: $userId) {
+    message
+  }
+}
+    `;
+export const useCreateMessageMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateMessageMutation, TError, CreateMessageMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateMessageMutation, TError, CreateMessageMutationVariables, TContext>(
+      ['createMessage'],
+      (variables?: CreateMessageMutationVariables) => fetcher<CreateMessageMutation, CreateMessageMutationVariables>(client, CreateMessageDocument, variables, headers)(),
+      options
+    );
+export const GetMessagesDocument = `
+    query getMessages {
+  getMessages {
+    id
+    message
+    user {
+      username
+    }
+  }
+}
+    `;
+export const useGetMessagesQuery = <
+      TData = GetMessagesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetMessagesQueryVariables,
+      options?: UseQueryOptions<GetMessagesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetMessagesQuery, TError, TData>(
+      variables === undefined ? ['getMessages'] : ['getMessages', variables],
+      fetcher<GetMessagesQuery, GetMessagesQueryVariables>(client, GetMessagesDocument, variables, headers),
       options
     );

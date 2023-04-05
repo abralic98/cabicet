@@ -4,3 +4,19 @@ query allUsers {
     id
   }
 }
+
+mutation createMessage($message: String!, $userId: ID!) {
+  createMessage(message: $message, userId: $userId) {
+    message
+  }
+}
+
+query getMessages {
+  getMessages {
+    id
+    message
+    user {
+      username
+    }
+  }
+}

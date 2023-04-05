@@ -32,12 +32,9 @@ export const Login = () => {
       }
     } else {
       try {
-        await login.mutateAsync({ password: data.password, username: data.username })
+        const res = await login.mutateAsync({ password: data.password, username: data.username })
         toast.success('Successfully Logged')
-        localStorage.setItem(
-          'chaby-token',
-          String(login.data?.loginUser?.id) + String(login.data?.loginUser?.username)
-        )
+        localStorage.setItem('chaby-token', String(res.loginUser?.id))
         router.push('/')
       } catch {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
