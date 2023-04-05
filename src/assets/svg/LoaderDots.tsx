@@ -1,11 +1,13 @@
-export const LoaderDots = () => {
+import { FC } from 'react'
+
+export const LoaderDots: FC<{ color?: string }> = ({ color }) => {
   return (
     <svg
       width={'120'}
       height={'8'}
       viewBox="0 0 120 30"
       xmlns="http://www.w3.org/2000/svg"
-      fill={'fill'}
+      fill={color || 'fill'}
     >
       <circle cx="15" cy="15" r="15">
         <animate

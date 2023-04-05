@@ -1,4 +1,3 @@
-import { Box } from '@kodiui/ui'
 import Head from 'next/head'
 
 import { MainChat } from '@/features/main-chat'
@@ -12,9 +11,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box p={{ tablet: '3xl', desktop: 'lg' }} background={{ hover: 'amber10' }}>
-        <MainChat />
-      </Box>
+      <MainChat />
     </>
   )
 }

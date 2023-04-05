@@ -138,7 +138,7 @@ export type LoginUserMutation = { __typename?: 'RootMutationType', loginUser?: {
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllUsersQuery = { __typename?: 'RootQueryType', allUsers?: Array<{ __typename?: 'User', username: string } | null> | null };
+export type AllUsersQuery = { __typename?: 'RootQueryType', allUsers?: Array<{ __typename?: 'User', username: string, id: string } | null> | null };
 
 
 export const CreateAccountDocument = `
@@ -186,6 +186,7 @@ export const AllUsersDocument = `
     query allUsers {
   allUsers {
     username
+    id
   }
 }
     `;

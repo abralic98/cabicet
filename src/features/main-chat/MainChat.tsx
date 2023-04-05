@@ -1,17 +1,15 @@
-import { Box } from '@kodiui/ui'
+import { Cluster } from '@kodiui/ui'
 
-import { useAllUsersQuery } from '@/generated/graphql'
-import { graphQlClient } from '@/lib/graphqlRequest/graphQlClient'
+import { Chat } from './components/Chat/Chat'
+import { Rooms } from './components/Rooms/Rooms'
+import { UserList } from './components/UserList/UserList'
 
 export const MainChat = () => {
-  const { data, isFetching } = useAllUsersQuery(graphQlClient)
-
   return (
-    <>
-      <Box as={'h1'}>{isFetching ? 'fecase' : 'nefecase'}</Box>
-      {data?.allUsers?.map((u, i) => {
-        return <h1 key={i}>{u?.username}</h1>
-      })}
-    </>
+    <Cluster gap={0} height={'screen'}>
+      <Rooms />
+      <Chat />
+      <UserList />
+    </Cluster>
   )
 }
