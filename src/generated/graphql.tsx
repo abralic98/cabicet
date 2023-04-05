@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -61,6 +61,8 @@ export type RootMutationType = {
   createUser?: Maybe<User>;
   /** Delete link */
   deleteLink?: Maybe<Scalars['ID']>;
+  /** Login */
+  loginUser?: Maybe<User>;
 };
 
 
@@ -92,6 +94,12 @@ export type RootMutationTypeDeleteLinkArgs = {
   id: Scalars['ID'];
 };
 
+
+export type RootMutationTypeLoginUserArgs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type RootQueryType = {
   __typename?: 'RootQueryType';
   /** Get all links */
@@ -110,12 +118,70 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type CreateAccountMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'RootMutationType', createAccount?: { __typename?: 'Account', id: string } | null };
+
+export type LoginUserMutationVariables = Exact<{
+  password: Scalars['String'];
+  username: Scalars['String'];
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'RootMutationType', loginUser?: { __typename?: 'User', username: string, id: string } | null };
+
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllUsersQuery = { __typename?: 'RootQueryType', allUsers?: Array<{ __typename?: 'User', username: string } | null> | null };
 
 
+export const CreateAccountDocument = `
+    mutation createAccount($email: String!, $password: String!, $username: String!) {
+  createAccount(email: $email, password: $password, username: $username) {
+    id
+  }
+}
+    `;
+export const useCreateAccountMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateAccountMutation, TError, CreateAccountMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateAccountMutation, TError, CreateAccountMutationVariables, TContext>(
+      ['createAccount'],
+      (variables?: CreateAccountMutationVariables) => fetcher<CreateAccountMutation, CreateAccountMutationVariables>(client, CreateAccountDocument, variables, headers)(),
+      options
+    );
+export const LoginUserDocument = `
+    mutation loginUser($password: String!, $username: String!) {
+  loginUser(password: $password, username: $username) {
+    username
+    id
+  }
+}
+    `;
+export const useLoginUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<LoginUserMutation, TError, LoginUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<LoginUserMutation, TError, LoginUserMutationVariables, TContext>(
+      ['loginUser'],
+      (variables?: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(client, LoginUserDocument, variables, headers)(),
+      options
+    );
 export const AllUsersDocument = `
     query allUsers {
   allUsers {

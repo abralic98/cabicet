@@ -1,0 +1,12 @@
+mutation createAccount($email: String!, $password: String!, $username: String!) {
+  createAccount(email: $email, password: $password, username: $username) {
+    id
+  }
+}
+
+mutation loginUser($password: String!, $username: String!) {
+  loginUser(password: $password, username: $username){
+    username
+    id
+  }
+}
