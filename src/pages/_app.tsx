@@ -7,11 +7,12 @@ import { Toaster } from 'react-hot-toast'
 import '@kodiui/ui/style.css'
 import '@/styles/global.css'
 import { queryClient } from '@/lib'
-import { darkTheme } from '@/styles/contract.css'
+import { useTheme } from '@/hooks'
 
 export default function App({ Component, pageProps }: AppProps) {
+  const theme = useTheme()
   return (
-    <div className={darkTheme}>
+    <div className={theme}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
         <Component {...pageProps} />

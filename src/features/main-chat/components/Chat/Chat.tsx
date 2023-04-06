@@ -12,7 +12,7 @@ export const Chat = () => {
       width={'2/3'}
       height={'full'}
       p={'2xl'}
-      background="blue10"
+      background="gray4"
     >
       <Messages />
       <InputBox />

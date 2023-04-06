@@ -38,12 +38,15 @@ export const Rooms = () => {
       flexDirection="column"
       justifyContent={'space-between'}
       p={'2xl'}
-      background={'red9'}
+      background={'gray5'}
       width={'1/6'}
+      __minWidth={'300px'}
       height="full"
     >
       <Stack>
-        <Box as={'h2'}>Rooms</Box>
+        <Box color={'gray12'} as={'h2'}>
+          Rooms
+        </Box>
         <Stack gap={'xxs'}>
           {data?.allRooms?.map((r) => {
             const hasPw = Boolean(String(r?.password)?.length > 0)
@@ -64,7 +67,14 @@ export const Rooms = () => {
               </Box>
             )
           })}
-          <Button margin="auto" width={'52'} onClick={() => room.setActiveRoom(undefined)}>
+          <Button
+            background={'blue8'}
+            color="gray12"
+            fontWeight={'bold'}
+            margin="auto"
+            width={'52'}
+            onClick={() => room.setActiveRoom(undefined)}
+          >
             Leave Rooms
           </Button>
         </Stack>

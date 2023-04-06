@@ -32,6 +32,7 @@ export const Input: FC<Props> = (props) => {
           {...props}
           as={'input'}
           background={props.background}
+          borderRadius="sm"
         />
       </Stack>
       <ErrorMessage

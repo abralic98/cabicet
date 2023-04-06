@@ -11,9 +11,11 @@ export const Messages = () => {
   const messages = data?.getMessages?.map((m) => {
     return (
       <Cluster key={m?.id}>
-        <Box borderRadius="xxl" width={'16'} height="16" background={'green8'} />
-        <Box as={'h4'}>{m?.user?.username}:</Box>
-        <Box fontWeight={'bolder'} as={'h3'}>
+        <Box borderRadius="xxl" width={'8'} height="8" background={'green8'} />
+        <Box as={'h4'} color="blue9">
+          {m?.user?.username}:
+        </Box>
+        <Box fontWeight={'bolder'} color="yellow11" as={'h3'}>
           {m?.message}
         </Box>
       </Cluster>
@@ -22,7 +24,7 @@ export const Messages = () => {
 
   if (isFetching && !messages) return <LoaderDots />
   if (!room.activeRoom) {
-    return <Box>Select Chat Room To send messages</Box>
+    return <Box color={'black'}>Select Chat Room To send messages</Box>
   }
   return <Stack>{messages}</Stack>
 }
