@@ -1,2 +1,5 @@
 export { Button } from './button/Button'
 export { Input } from './input/Input'
+export { Popup } from './popup/Popup'
+export { Portal } from './portal/Portal'
+export { PopupHeader } from './popup/PopupHeader'

@@ -5,18 +5,32 @@ query allUsers {
   }
 }
 
-mutation createMessage($message: String!, $userId: ID!) {
-  createMessage(message: $message, userId: $userId) {
+mutation createMessage($message: String!, $userId: ID!, $roomId: ID!) {
+  createMessage(message: $message, userId: $userId, roomId: $roomId) {
     message
   }
 }
 
-query getMessages {
-  getMessages {
+query getMessages($roomId: ID!) {
+  getMessages(roomId: $roomId) {
     id
     message
     user {
       username
     }
+  }
+}
+
+mutation createRoom($name: String!, $password: String) {
+  createRoom(name: $name, password: $password) {
+    name
+  }
+}
+
+query allRooms{
+  allRooms{
+    name
+    id
+    password
   }
 }

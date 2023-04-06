@@ -9,6 +9,7 @@ export default function Document() {
       <body className={darkTheme}>
         <Main />
         <NextScript />
+        <div id="popup" />
       </body>
     </Html>
   )

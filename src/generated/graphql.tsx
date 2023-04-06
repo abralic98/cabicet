@@ -34,7 +34,16 @@ export type Message = {
   __typename?: 'Message';
   id: Scalars['ID'];
   message: Scalars['String'];
+  room?: Maybe<Room>;
   user?: Maybe<User>;
+};
+
+export type Room = {
+  __typename?: 'Room';
+  id: Scalars['ID'];
+  messages?: Maybe<Array<Maybe<Message>>>;
+  name: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
 };
 
 export type RootMutationType = {
@@ -43,6 +52,8 @@ export type RootMutationType = {
   createAccount?: Maybe<Account>;
   /** Create new Message */
   createMessage?: Maybe<Message>;
+  /** Create new Room */
+  createRoom?: Maybe<Room>;
   /** Create new User */
   createUser?: Maybe<User>;
   /** Login */
@@ -59,7 +70,14 @@ export type RootMutationTypeCreateAccountArgs = {
 
 export type RootMutationTypeCreateMessageArgs = {
   message: Scalars['String'];
+  roomId: Scalars['ID'];
   userId: Scalars['ID'];
+};
+
+
+export type RootMutationTypeCreateRoomArgs = {
+  name: Scalars['String'];
+  password?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -75,10 +93,17 @@ export type RootMutationTypeLoginUserArgs = {
 
 export type RootQueryType = {
   __typename?: 'RootQueryType';
+  /** Get all Rooms */
+  allRooms?: Maybe<Array<Maybe<Room>>>;
   /** Get all users */
   allUsers?: Maybe<Array<Maybe<User>>>;
   /** Get all messages */
   getMessages?: Maybe<Array<Maybe<Message>>>;
+};
+
+
+export type RootQueryTypeGetMessagesArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type User = {
@@ -112,15 +137,31 @@ export type AllUsersQuery = { __typename?: 'RootQueryType', allUsers?: Array<{ _
 export type CreateMessageMutationVariables = Exact<{
   message: Scalars['String'];
   userId: Scalars['ID'];
+  roomId: Scalars['ID'];
 }>;
 
 
 export type CreateMessageMutation = { __typename?: 'RootMutationType', createMessage?: { __typename?: 'Message', message: string } | null };
 
-export type GetMessagesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMessagesQueryVariables = Exact<{
+  roomId: Scalars['ID'];
+}>;
 
 
 export type GetMessagesQuery = { __typename?: 'RootQueryType', getMessages?: Array<{ __typename?: 'Message', id: string, message: string, user?: { __typename?: 'User', username: string } | null } | null> | null };
+
+export type CreateRoomMutationVariables = Exact<{
+  name: Scalars['String'];
+  password?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateRoomMutation = { __typename?: 'RootMutationType', createRoom?: { __typename?: 'Room', name: string } | null };
+
+export type AllRoomsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllRoomsQuery = { __typename?: 'RootQueryType', allRooms?: Array<{ __typename?: 'Room', name: string, id: string, password?: string | null } | null> | null };
 
 
 export const CreateAccountDocument = `
@@ -187,8 +228,8 @@ export const useAllUsersQuery = <
       options
     );
 export const CreateMessageDocument = `
-    mutation createMessage($message: String!, $userId: ID!) {
-  createMessage(message: $message, userId: $userId) {
+    mutation createMessage($message: String!, $userId: ID!, $roomId: ID!) {
+  createMessage(message: $message, userId: $userId, roomId: $roomId) {
     message
   }
 }
@@ -207,8 +248,8 @@ export const useCreateMessageMutation = <
       options
     );
 export const GetMessagesDocument = `
-    query getMessages {
-  getMessages {
+    query getMessages($roomId: ID!) {
+  getMessages(roomId: $roomId) {
     id
     message
     user {
@@ -222,12 +263,55 @@ export const useGetMessagesQuery = <
       TError = unknown
     >(
       client: GraphQLClient,
-      variables?: GetMessagesQueryVariables,
+      variables: GetMessagesQueryVariables,
       options?: UseQueryOptions<GetMessagesQuery, TError, TData>,
       headers?: RequestInit['headers']
     ) =>
     useQuery<GetMessagesQuery, TError, TData>(
-      variables === undefined ? ['getMessages'] : ['getMessages', variables],
+      ['getMessages', variables],
       fetcher<GetMessagesQuery, GetMessagesQueryVariables>(client, GetMessagesDocument, variables, headers),
+      options
+    );
+export const CreateRoomDocument = `
+    mutation createRoom($name: String!, $password: String) {
+  createRoom(name: $name, password: $password) {
+    name
+  }
+}
+    `;
+export const useCreateRoomMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateRoomMutation, TError, CreateRoomMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateRoomMutation, TError, CreateRoomMutationVariables, TContext>(
+      ['createRoom'],
+      (variables?: CreateRoomMutationVariables) => fetcher<CreateRoomMutation, CreateRoomMutationVariables>(client, CreateRoomDocument, variables, headers)(),
+      options
+    );
+export const AllRoomsDocument = `
+    query allRooms {
+  allRooms {
+    name
+    id
+    password
+  }
+}
+    `;
+export const useAllRoomsQuery = <
+      TData = AllRoomsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: AllRoomsQueryVariables,
+      options?: UseQueryOptions<AllRoomsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<AllRoomsQuery, TError, TData>(
+      variables === undefined ? ['allRooms'] : ['allRooms', variables],
+      fetcher<AllRoomsQuery, AllRoomsQueryVariables>(client, AllRoomsDocument, variables, headers),
       options
     );

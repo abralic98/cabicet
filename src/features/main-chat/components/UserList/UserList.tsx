@@ -1,4 +1,4 @@
-import { Box, Cluster } from '@kodiui/ui'
+import { Box, Cluster, Stack } from '@kodiui/ui'
 
 import { LoaderDots } from '@/assets'
 import { useAllUsersQuery } from '@/generated/graphql'
@@ -16,8 +16,11 @@ export const UserList = () => {
   })
   if (!users) return <LoaderDots color="white" />
   return (
-    <Box width={'1/6'} height={'full'} background="amber10" padding={'lg'}>
-      {users}
+    <Box p={'2xl'} width={'1/6'} height={'full'} background="amber10" padding={'lg'}>
+      <Stack>
+        <Box as={'h2'}>Members</Box>
+        {users}
+      </Stack>
     </Box>
   )
 }

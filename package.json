@@ -13,6 +13,7 @@
     "@hookform/error-message": "^2.0.1",
     "@kodiui/ui": "0.0.32",
     "@tanstack/react-query": "^4.28.0",
+    "@tanstack/react-query-devtools": "^4.29.0",
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
@@ -28,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.8.0",
     "react-query-auth": "^2.2.0",
     "typescript": "5.0.3",
     "zustand": "^4.3.7"
