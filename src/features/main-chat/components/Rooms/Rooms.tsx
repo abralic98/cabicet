@@ -48,25 +48,28 @@ export const Rooms = () => {
           Rooms
         </Box>
         <Stack gap={'xxs'}>
-          {data?.allRooms?.map((r) => {
-            const hasPw = Boolean(String(r?.password)?.length > 0)
+          {/*bug*/}
+          <Box __height={'400px'} style={{ overflow: 'auto', height:'400px' }}> 
+            {data?.allRooms?.map((r) => {
+              const hasPw = Boolean(String(r?.password)?.length > 0)
 
-            return (
-              <Box
-                background={room.activeRoom === r?.id ? 'blue11' : 'blue8'}
-                cursor="pointer"
-                key={r?.id}
-                as={'h4'}
-              >
-                <Cluster p={'sm'} onClick={() => handleOpenRoom(r?.id, r?.password)}>
-                  <Box as={'p'} color="white">
-                    # {r?.name}
-                  </Box>
-                  {hasPw ? <AiFillLock /> : null}
-                </Cluster>
-              </Box>
-            )
-          })}
+              return (
+                <Box
+                  background={room.activeRoom === r?.id ? 'blue11' : 'blue8'}
+                  cursor="pointer"
+                  key={r?.id}
+                  as={'h4'}
+                >
+                  <Cluster p={'sm'} onClick={() => handleOpenRoom(r?.id, r?.password)}>
+                    <Box as={'p'} color="white">
+                      # {r?.name}
+                    </Box>
+                    {hasPw ? <AiFillLock /> : null}
+                  </Cluster>
+                </Box>
+              )
+            })}
+          </Box>
           <Button
             background={'blue8'}
             color="gray12"
