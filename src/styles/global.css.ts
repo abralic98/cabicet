@@ -9,3 +9,4 @@ globalStyle('::-webkit-scrollbar-thumb', {
   borderRadius: '10px',
 })
 globalStyle('::-webkit-scrollbar-thumb:hover', { background: kodiContract.colors.blackA9 })
+

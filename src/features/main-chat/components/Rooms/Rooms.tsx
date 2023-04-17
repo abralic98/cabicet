@@ -46,6 +46,7 @@ export const Rooms: FC<Props> = ({ type }) => {
       height="fit"
     >
       <Stack>
+
         <Box style={{ overflow: 'auto' }}>
           <Stack>
             <Cluster
@@ -78,6 +79,7 @@ export const Rooms: FC<Props> = ({ type }) => {
           </Stack>
         </Box>
         <CreateRoom />
+
       </Stack>
       {open && <PasswordPopup id={id} pw={password} visible={open} setVisible={setOpen} />}
     </Box>
