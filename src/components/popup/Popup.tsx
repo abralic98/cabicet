@@ -40,8 +40,12 @@ export const Popup: React.FC<PopupProps> = (props) => {
                 headerChildren={props.headerChildren}
               />
             )}
-            <Animation animation="fadeIn">
-              <Animation animation="slideInDown">
+            <Animation animation="fadeInBloom">
+              <Animation
+                animation="shakeX"
+                animationDuration="0.3s"
+                animationIterationCount={'infinite'}
+              >
                 <Box className="popup-content">{props.children}</Box>
               </Animation>
             </Animation>
